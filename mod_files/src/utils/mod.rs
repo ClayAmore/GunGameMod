@@ -5,12 +5,21 @@ use winapi::{ shared::minwindef::{HMODULE, MAX_PATH}, um::{errhandlingapi::GetLa
 pub struct Utils;
 
 impl Utils {
+
+    // Fetch dll path once it's called and store it in as static value 
+    // in case of additional calls
     pub unsafe fn dll_path() -> &'static String {
+
+        // Static value using OnceCell
         static DLL_PATH: OnceCell<String> = OnceCell::new();
+
+        // Get the value or initate it if first time called
         DLL_PATH.get_or_init(|| {
+
+            // This solution is based on https://stackoverflow.com/a/6924332, but in rust
             let mut path: [u8; MAX_PATH] = [0; MAX_PATH];
             let mut hm: HMODULE = ptr::null_mut();
-    
+            
             if GetModuleHandleExA(
                 GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                 Utils::dll_path as *const i8 as *mut _,

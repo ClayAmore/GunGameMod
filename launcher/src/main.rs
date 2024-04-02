@@ -34,7 +34,11 @@ fn main() {
     // Use dll-syringe to inject dll
     let target_process = OwnedProcess::find_first_by_name("eldenring.exe").unwrap();
     let syringe = Syringe::for_process(target_process);
+    
+    // Inject file modding dll responsible for replacing game files with mod files if present
     syringe.inject(env::current_dir().unwrap().join("mod_files.dll")).unwrap();
+    
+    // Inject other dlls defined in config.toml
     unsafe {
         if let Some(dlls) = &config().dlls {
             dlls.iter().for_each(|dll| {

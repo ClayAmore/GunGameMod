@@ -1,6 +1,7 @@
 // build.rs
 use std::{env, fs};
 
+// Copy dll to launcher folder to ease the dev workflow 
 fn main() {
     let src_path = env::current_dir().unwrap()
         .join("target")
