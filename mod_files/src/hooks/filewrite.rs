@@ -4,7 +4,7 @@ use widestring::{WideCStr, WideString};
 use winapi::{ shared::{basetsd::UINT64, minwindef::DWORD}, um::{fileapi::CreateFileW, minwinbase::LPSECURITY_ATTRIBUTES, winnt::{HANDLE, LPCWSTR, WCHAR}}};
 
 /* 
-This is mostly ModEngine2 file mod_loader extension in rust.
+This is part of the ModEngine2 file mod_loader extension in rust.
 https://github.com/soulsmods/ModEngine2/tree/main/src/modengine/ext/mod_loader
 ModEngine2 is the recommended tool for file modding.
 
