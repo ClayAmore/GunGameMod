@@ -1,0 +1,7 @@
+/target
+
+# Copied to launcher when built
+mod_files.dll
+
+# Files are just for testing file modding
+mod/*
