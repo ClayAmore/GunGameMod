@@ -6,8 +6,6 @@ mod steam_path;
 mod config;
 
 fn main() {
-    // Read config
-
     // Locate ELDEN RING install dir
     let elden_ring_path_res= SteamPath::game_root();
     
