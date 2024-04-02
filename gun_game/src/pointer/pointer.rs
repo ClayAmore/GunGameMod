@@ -18,7 +18,7 @@ impl Pointer {
             addr = (*addr as *const usize).byte_offset(*offset);
         }
 
-        // Return addr as pointer to user defined type T
+        // Return addr as pointer to type T
         Some(addr as *const T)
     }
 }
