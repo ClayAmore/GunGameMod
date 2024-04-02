@@ -1,3 +1,0 @@
-[submodule "crates/fisherman"]
-	path = crates/fisherman
-	url = https://github.com/Nordgaren/fisherman.git
