@@ -1,0 +1,16 @@
+[workspace]
+members = [
+    "mod_files",
+    "gun_game",
+    "launcher",
+]
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = "z"
+
+[workspace.dependencies]
+fisherman = {path="fisherman"}

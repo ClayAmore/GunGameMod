@@ -1,4 +1,4 @@
-use std::{env, fs, path::Path};
+use std::{env, fs::{self, File}, io::Write, path::Path};
 
 use once_cell::sync::OnceCell;
 use serde::Deserialize;
@@ -15,10 +15,31 @@ pub unsafe fn config() -> &'static Config {
     static CONFIG: OnceCell<Config> = OnceCell::new();
     CONFIG.get_or_init(|| {
         // Current dir
-        let curren_dir = env::current_dir().unwrap();
+        let current_exe = env::current_exe().unwrap();
+        let curren_dir = current_exe.parent().unwrap();
 
         // Config file path
         let config_path = curren_dir.join("config.toml");
+
+        if !config_path.exists() {
+            if let Err(err) = fs::write(&config_path ,"
+# LAUNCHER CONFIG
+# List of DLLs to be injected into the game on launch. Uncomment to use.
+# Allows for relative paths as well as aboslute.
+# Use either `/` or `\\` for path seperators.
+# Example dlls=[\"c:/path/to/some/mod.dll\", \"mod.dll\"]
+dlls = [\"gun_game.dll\"]
+
+# List of mod directories
+# Allows for relative paths as well as aboslute.
+# Use either `/` or `\\` for path seperators.
+# Default is set to `mod`
+# Example mods=[\"c:/path/to/mod/dir/\", \"mod2\"]
+mods = [\"mod\"]
+            ") {
+                panic!("Failed to create config.toml\nError: {err}");
+            }
+        }
 
         // Read config file
         let config = fs::read_to_string(config_path.to_str().unwrap().to_string()).expect("Failed to read config.toml");
