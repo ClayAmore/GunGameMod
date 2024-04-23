@@ -7,6 +7,7 @@ use crate::{ext::signature::{SignatureExt, Type}, pointer::pointer::Pointer};
 pub struct Inventory;
 
 impl Inventory {
+    #[allow(unused)]
     pub unsafe fn get_weapon_matchmaking_level() -> Option<*const u8> {
         // Get address from pattern
         let game_data_man_addr = SignatureExt::signature(

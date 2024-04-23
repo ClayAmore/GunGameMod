@@ -1,13 +1,15 @@
-use std::thread;
+use std::thread::{self, sleep};
+use std::time::Duration;
 
 use hooks::hooks::Hooks;
-use inventory::inventory::Inventory;
 use winapi::um::consoleapi::AllocConsole;
 use winapi::shared::minwindef::{BOOL, HINSTANCE, LPVOID, TRUE};
 use winapi::um::libloaderapi::DisableThreadLibraryCalls;
 use winapi::um::winnt::DLL_PROCESS_ATTACH;
+use steamworks::{Client, LobbyDataUpdate, P2PSessionRequest};
+use std::mem::ManuallyDrop;
 
-use crate::player::player::Player;
+use crate::ext::steamworks_ext::lobbycreated_t::LobbyCreated;
 
 // Extensions for external crates
 mod ext;
@@ -31,17 +33,39 @@ mod utils;
 unsafe fn main_thread() {
     #[cfg(debug_assertions)]
     unsafe {AllocConsole();}
-    
+
     // init hooks
-    unsafe { Hooks::init_hooks(); }
+    Hooks::init_hooks();
+
+    // Steam testing
+    let manually_drop = ManuallyDrop::new(Client::init().unwrap());
+    let client = &manually_drop.0;
+    let single = &manually_drop.1;
+    
+    let user = client.user();
+    let matchmaking = client.matchmaking();
+    let networking = client.networking();
+
+    println!("{}", user.steam_id().raw()); // <--- works 
+
+    // Custom callback /ext/steamworks_ext/lobbycreated_t
+    client.register_callback(|_: LobbyCreated| { 
+        println!("Lobby Enter Update");
+    });
+
+    // Steamworks callback
+    client.register_callback(|_: LobbyDataUpdate| {
+        println!("Lobby Data Update");
+    });
+
+    // Steamworks callback
+    client.register_callback(|_: P2PSessionRequest| {
+        println!("P2PSessionRequest");
+    });
 
     loop {
-        // Wait for playerins
-        if !Player::is_player_loaded() { continue; }
-
-        // Weapon matchmaking level
-        let weapon_matchmaking_level_addr = Inventory::get_weapon_matchmaking_level();
-        println!("Weapon matchmaking level is: {}", *weapon_matchmaking_level_addr.unwrap());
+        single.run_callbacks();
+        sleep(Duration::from_millis(100));
     }
 }
 

@@ -4,6 +4,7 @@ use winapi::{ shared::minwindef::{HMODULE, MAX_PATH}, um::{errhandlingapi::GetLa
 
 pub struct Utils;
 
+#[allow(unused)]
 impl Utils {
 
     // Fetch dll path once it's called and store it in as static value 

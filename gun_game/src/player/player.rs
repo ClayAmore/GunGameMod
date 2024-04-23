@@ -2,6 +2,8 @@ use crate::{ext::signature::{SignatureExt, Type}, pointer::pointer::Pointer};
 
 pub struct Player;
 
+// For testing
+#[allow(unused)]
 impl Player {
     pub unsafe fn is_player_loaded() -> bool {
         // Get address from pattern
