@@ -1,4 +1,0 @@
-[submodule "fisherman"]
-	path = fisherman
-	url = https://github.com/Nordgaren/fisherman.git
-	branch = main

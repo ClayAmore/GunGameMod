@@ -1,5 +1,5 @@
 
-use crate::{ext::signature::{SignatureExt, Type}, pointer::pointer::Pointer};
+use crate::{signature::signature::{SignatureExt, Type}, pointer::pointer::Pointer};
 
 // Equip Inventory Data [[[GameDataMan]+0x8]+0x2B0+0x158+0x40]
 // Weapon Match Making level [[GameDataMan]+0x8]+E2

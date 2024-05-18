@@ -1,4 +1,4 @@
-use fisherman::{hook::builder::HookBuilder, scanner::signature::Signature};
+use fisherman::hook::builder::HookBuilder;
 
 use crate::{ext::signature::{SignatureExt, Type}, hooks::filewrite::file_write_hook};
 
